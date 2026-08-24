@@ -14,8 +14,10 @@ def _build_use_case() -> NormalizeTranscriptionEvent:
     )
 
 
-def handler(event):
+def handler(event, context):
     use_case = _build_use_case()
     for record in event["Records"]:
         s3_event = json.loads(record["body"])
+        if "Event" in s3_event and s3_event["Event"] == "s3:TestEvent":
+            continue
         use_case.execute(s3_event)
