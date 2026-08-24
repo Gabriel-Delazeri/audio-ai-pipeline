@@ -1,13 +1,22 @@
+# -------------------------------------------------------
+# audio - s3
+# -------------------------------------------------------
+
 data "aws_s3_bucket" "audio" {
   bucket = var.bucket_name
 }
 
+
+# -------------------------------------------------------
+# transcription-raw-events
+# -------------------------------------------------------
+
 resource "aws_sqs_queue" "raw_events_dlq" {
-  name = var.dlq_name
+  name = var.transcription_raw_events_dlq_name
 }
 
 resource "aws_sqs_queue" "raw_events" {
-  name                       = var.queue_name
+  name                       = var.transcription_raw_events_queue_name
   visibility_timeout_seconds = 300
 
   redrive_policy = jsonencode({
@@ -44,4 +53,22 @@ resource "aws_s3_bucket_notification" "audio_upload" {
   }
 
   depends_on = [aws_sqs_queue_policy.allow_s3]
+}
+
+# -------------------------------------------------------
+# transcription
+# -------------------------------------------------------
+
+resource "aws_sqs_queue" "transcription_dlq" {
+  name = var.transcription_dlq_name
+}
+
+resource "aws_sqs_queue" "transcription" {
+  name                       = var.transcription_queue_name
+  visibility_timeout_seconds = 300
+
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.transcription_dlq.arn
+    maxReceiveCount     = var.max_receive_count
+  })
 }
