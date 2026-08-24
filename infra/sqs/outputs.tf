@@ -1,15 +1,15 @@
-output "audio_processing_queue_url" {
-  value = aws_sqs_queue.audio_processing.url
+output "raw_events_queue_url" {
+  value = aws_sqs_queue.raw_events.url
 }
 
-output "audio_processing_queue_arn" {
-  value = aws_sqs_queue.audio_processing.arn
+output "raw_events_queue_arn" {
+  value = aws_sqs_queue.raw_events.arn
 }
 
-output "audio_dlq_url" {
-  value = aws_sqs_queue.audio_dlq.url
+output "raw_events_dlq_url" {
+  value = aws_sqs_queue.raw_events_dlq.url
 }
 
-output "audio_dlq_arn" {
-  value = aws_sqs_queue.audio_dlq.arn
+output "raw_events_dlq_arn" {
+  value = aws_sqs_queue.raw_events_dlq.arn
 }
