@@ -5,6 +5,7 @@
 **.terraform.lock.hcl
 **LICENSE.txt
 **terraform.tfstate
+**terraform.tfstate.backup
 **.terraform
 
 #DOCKER
