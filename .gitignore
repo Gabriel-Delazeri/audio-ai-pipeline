@@ -1,6 +1,8 @@
 #GENERAL
 .idea
 **.zip
+**.xml
+**.iml
 
 #ENV
 /.env
